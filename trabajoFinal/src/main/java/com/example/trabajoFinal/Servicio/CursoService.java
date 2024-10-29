@@ -1,6 +1,7 @@
 package com.example.trabajoFinal.Servicio;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,12 +15,12 @@ public interface CursoService {
     void eliminarCurso(Integer id);
     
     // Cursos que finalizan en una fecha determinada
-    List<Curso> obtenerCursosPorFechaFin(Date fechaFin);
+    List<Curso> obtenerCursosPorFechaFin(LocalDate fechaFin);
 
     // Alumnos del curso vigente de un profesor
     List<String> obtenerAlumnosPorProfesor(Long legajoProfesor);
     
-    List<Curso> obtenerCursosVigentesPorProfesor(Long legajoProfesor, Date fecha);
+    List<Curso> obtenerCursosVigentesPorProfesor(Long legajoProfesor, LocalDate fecha);
     
     public Curso actualizarCurso(Integer id, Curso nuevosDatosCurso);
 }

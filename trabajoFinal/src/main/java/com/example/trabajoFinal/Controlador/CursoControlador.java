@@ -2,8 +2,11 @@ package com.example.trabajoFinal.Controlador;
 
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -57,25 +60,27 @@ public class CursoControlador {
     @CrossOrigin(origins= "http://localhost:4200")  //obtener curso por la fecha fin
     @GetMapping("/fecha-fin")
     public List<Curso> obtenerCursosPorFechaFin(@RequestParam("fecha") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaFin) {
-        return cursoServicio.obtenerCursosPorFechaFin(java.sql.Date.valueOf(fechaFin));
+        return cursoServicio.obtenerCursosPorFechaFin(fechaFin);
     }
 
     
     @CrossOrigin(origins= "http://localhost:4200")
     @GetMapping("/profesor/{legajo}/alumnos")
     public ResponseEntity<List<String>> obtenerAlumnosPorProfesor(@PathVariable("legajo") Long legajoProfesor) {
-        List<String> alumnos = cursoServicio.obtenerAlumnosPorProfesor(legajoProfesor);
-        if (alumnos.isEmpty()) {
+        Set<String> alumnosSet = new HashSet<>(cursoServicio.obtenerAlumnosPorProfesor(legajoProfesor)); // Eliminar duplicados usando un Set
+        if (alumnosSet.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
-        return ResponseEntity.ok(alumnos);
+        List<String> alumnosUnicos = new ArrayList<>(alumnosSet); // Convertir el Set de vuelta a una List
+        return ResponseEntity.ok(alumnosUnicos);
     }
+
     
     
     @CrossOrigin(origins= "http://localhost:4200")
     @GetMapping("/profesor/{fecha}/{legajo}")
     public List<Curso> obtenerCursosVigentesPorProfesor(@PathVariable("legajo") Long legajoProfesor, @PathVariable("fecha") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fecha){
-    	return cursoServicio.obtenerCursosVigentesPorProfesor(legajoProfesor, java.sql.Date.valueOf(fecha));
+    	return cursoServicio.obtenerCursosVigentesPorProfesor(legajoProfesor, fecha);
     }
     
     @CrossOrigin(origins= "http://localhost:4200")

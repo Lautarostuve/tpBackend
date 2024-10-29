@@ -1,6 +1,7 @@
 package com.example.trabajoFinal.Servicio;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -46,7 +47,7 @@ public class CursoServiceImp implements CursoService {
     
     // Implementación para obtener los cursos que finalizan en una fecha específica
     @Override
-    public List<Curso> obtenerCursosPorFechaFin(Date fechaFin) {
+    public List<Curso> obtenerCursosPorFechaFin(LocalDate fechaFin) {
         return cursoRepositorio.findAll().stream()
             .filter(curso -> curso.getFechaFin().equals(fechaFin))
             .collect(Collectors.toList());
@@ -64,10 +65,10 @@ public class CursoServiceImp implements CursoService {
     }
     
     @Override
-    public List<Curso> obtenerCursosVigentesPorProfesor(Long legajoProfesor, Date fecha) {
+    public List<Curso> obtenerCursosVigentesPorProfesor(Long legajoProfesor, LocalDate fecha) {
         return cursoRepositorio.findAll().stream()
             .filter(curso -> curso.getDocente().getLegajo().equals(legajoProfesor))  // Filtrar por legajo del profesor
-            .filter(curso -> !curso.getFechaInicio().after(fecha) && !curso.getFechaFin().before(fecha))  // Vigencia del curso
+            .filter(curso -> !curso.getFechaInicio().isAfter(fecha) && !curso.getFechaFin().isBefore(fecha))  // Vigencia del curso
             .collect(Collectors.toList());
     }
 

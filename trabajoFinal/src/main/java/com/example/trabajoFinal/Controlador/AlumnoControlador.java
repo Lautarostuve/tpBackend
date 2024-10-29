@@ -65,7 +65,6 @@ public class AlumnoControlador {
         return new ResponseEntity<>(alumnoActualizado, HttpStatus.OK);
     }
  
-    
     @CrossOrigin(origins= "http://localhost:4200")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminarAlumno(@PathVariable Integer id) {
