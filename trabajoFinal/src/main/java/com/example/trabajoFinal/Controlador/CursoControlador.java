@@ -23,13 +23,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.trabajoFinal.Entidad.Alumno;
+
 import com.example.trabajoFinal.Entidad.Curso;
 import com.example.trabajoFinal.Servicio.CursoService;
 
 @RestController
-@CrossOrigin(origins= "http://localhost:4200")
-@RequestMapping("/cursos")
+@CrossOrigin(origins= "http://localhost:4200") //permite el acceso CORS del front
+@RequestMapping("/cursos") //define la ruta base /cursos para todas las solicitudes a este controlador
 public class CursoControlador {
 
     @Autowired
@@ -46,19 +46,19 @@ public class CursoControlador {
     public ResponseEntity<Optional<Curso>> obtenerCursoPorId(@PathVariable("id") Integer id) {
         Optional <Curso> curso = cursoServicio.obtenerCursoPorId(id);
         if (curso.isEmpty()) {
-            return ResponseEntity.noContent().build();
+            return ResponseEntity.noContent().build(); //Si el curso no existe, responde con erorr noContent 204
         }
-        return ResponseEntity.ok(curso);
+        return ResponseEntity.ok(curso); //devuelve el curso y codigo 200 ok
     }
     
     @CrossOrigin(origins= "http://localhost:4200")
-    @GetMapping("/saludovich")
+    @GetMapping("/saludo")
     public String funcionMostrar(){
 		return "Hola y bienvenidos";
 	}
     
     @CrossOrigin(origins= "http://localhost:4200")  //obtener curso por la fecha fin
-    @GetMapping("/fecha-fin")
+    @GetMapping("/fecha-fin") //La fecha se pasa como un parámetro de consulta (?fecha=yyyy-MM-dd)
     public List<Curso> obtenerCursosPorFechaFin(@RequestParam("fecha") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaFin) {
         return cursoServicio.obtenerCursosPorFechaFin(fechaFin);
     }

@@ -1,6 +1,5 @@
 package com.example.trabajoFinal.Servicio;
 
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -19,7 +18,7 @@ public class CursoServiceImp implements CursoService {
 
     private final CursoRepositorio cursoRepositorio;
 
-    @Autowired
+    @Autowired //autowired le indica a Spring que debe inyectar una instancia de CursoRepositorio cuando cree CursoServiceImp.
     public CursoServiceImp(CursoRepositorio cursoRepositorio) {
         this.cursoRepositorio = cursoRepositorio;
     }
@@ -47,10 +46,10 @@ public class CursoServiceImp implements CursoService {
     
     // Implementación para obtener los cursos que finalizan en una fecha específica
     @Override
-    public List<Curso> obtenerCursosPorFechaFin(LocalDate fechaFin) {
-        return cursoRepositorio.findAll().stream()
+    public List<Curso> obtenerCursosPorFechaFin(LocalDate fechaFin) {//obtiene todos los cursos y luego los filtra por los que su fechaFin es igual a la fecha parametro
+        return cursoRepositorio.findAll().stream()  //procesa los elementos de una lista en una secuencia
             .filter(curso -> curso.getFechaFin().equals(fechaFin))
-            .collect(Collectors.toList());
+            .collect(Collectors.toList()); //collect me permite recolectar el resultado del filtro en la lista de cursos
     }
 
 
@@ -59,8 +58,8 @@ public class CursoServiceImp implements CursoService {
     public List<String> obtenerAlumnosPorProfesor(Long legajoProfesor) {
         return cursoRepositorio.findAll().stream()
             .filter(curso -> curso.getDocente().getLegajo().equals(legajoProfesor) )
-            .flatMap(curso -> curso.getAlumnos().stream())
-            .map(alumno -> alumno.getNombre())
+            .flatMap(curso -> curso.getAlumnos().stream()) //convierte cada curso en un stream de alumnos, luego combina todos esos streams de alumnos en uno solo.
+            .map(alumno -> alumno.getNombre()) //transforma cada alumno en su nombre.
             .collect(Collectors.toList());
     }
     
