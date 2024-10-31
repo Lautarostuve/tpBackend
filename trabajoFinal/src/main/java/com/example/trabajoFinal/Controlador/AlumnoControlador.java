@@ -36,7 +36,7 @@ public class AlumnoControlador {
     }
     
     @CrossOrigin(origins= "http://localhost:4200")
-    @GetMapping("/saludovich")
+    @GetMapping("/saludo")
     public String funcionMostrar(){
 		return "Hola y bienvenidos";
 	}
