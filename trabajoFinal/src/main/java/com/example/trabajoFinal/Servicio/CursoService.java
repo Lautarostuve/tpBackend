@@ -22,5 +22,8 @@ public interface CursoService {
     
     List<Curso> obtenerCursosVigentesPorProfesor(Long legajoProfesor, LocalDate fecha);
     
+    //Cursos que estan vigentes en la fecha actual
+    List<Curso> obtenerCursosVigentesPorProfesor2(Long legajoProfesor); 
+    
     public Curso actualizarCurso(Integer id, Curso nuevosDatosCurso);
 }

@@ -83,11 +83,18 @@ public class CursoControlador {
     	return cursoServicio.obtenerCursosVigentesPorProfesor(legajoProfesor, fecha);
     }
     
+    //utiliza la fecha actual
+    @CrossOrigin(origins= "http://localhost:4200")
+    @GetMapping("/profesor/{legajo}")
+    public List<Curso> obtenerCursosVigentesPorProfesor2(@PathVariable("legajo") Long legajoProfesor){
+    	return cursoServicio.obtenerCursosVigentesPorProfesor2(legajoProfesor);
+    }
+    
     @CrossOrigin(origins= "http://localhost:4200")
     @PostMapping()
     public ResponseEntity<Curso> guardarCurso(@RequestBody Curso curso) {
         Curso nuevoCurso = cursoServicio.guardarCurso(curso);
-        return new ResponseEntity<>(nuevoCurso, HttpStatus.CREATED);
+        return new ResponseEntity<>(nuevoCurso, HttpStatus.CREATED); //devuelve codigo 201
     }
     
     @CrossOrigin(origins= "http://localhost:4200")
@@ -102,7 +109,7 @@ public class CursoControlador {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminarCurso(@PathVariable Integer id) {
         cursoServicio.eliminarCurso(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT); //devuelve codigo 204
     }
     
     

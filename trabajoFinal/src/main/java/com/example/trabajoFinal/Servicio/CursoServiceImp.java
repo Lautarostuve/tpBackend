@@ -72,6 +72,17 @@ public class CursoServiceImp implements CursoService {
     }
 
     
+    //utilizando la fecha actual
+    @Override
+    public List<Curso> obtenerCursosVigentesPorProfesor2(Long legajoProfesor) {
+        LocalDate fechaActual = LocalDate.now(); // Obtener la fecha actual
+        return cursoRepositorio.findAll().stream()
+            .filter(curso -> curso.getDocente().getLegajo().equals(legajoProfesor))  // Filtrar por legajo del profesor
+            .filter(curso -> !curso.getFechaInicio().isAfter(fechaActual) && !curso.getFechaFin().isBefore(fechaActual))  // Verificar vigencia del curso
+            .collect(Collectors.toList());
+    }
+
+    
     @Override
 	public Curso actualizarCurso(Integer id, Curso nuevosDatosCurso) {
 		Curso CursoExistente = cursoRepositorio.findById(id)
